@@ -1,2 +1,78 @@
 # tinh-gio-lam-viec
-tai dep trai
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tính giờ làm việc</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      max-width: 500px;
+      margin: 2rem auto;
+      padding: 1rem;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      background: #f9f9f9;
+    }
+    label, input {
+      display: block;
+      width: 100%;
+      margin-bottom: 1rem;
+    }
+    input {
+      padding: 0.5rem;
+    }
+    button {
+      padding: 0.7rem;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #0056b3;
+    }
+    .result {
+      font-weight: bold;
+      margin-top: 1rem;
+    }
+  </style>
+</head>
+<body>
+  <h2>Tính thời gian làm việc thực tế</h2>
+  <label>Giờ bắt đầu:
+    <input type="time" id="startTime" value="08:00">
+  </label>
+  <label>Giờ kết thúc:
+    <input type="time" id="endTime" value="20:00">
+  </label>
+  <label>Tổng phút nghỉ (linh hoạt):
+    <input type="number" id="breakMinutes" value="95">
+  </label>
+  <button onclick="calculateWorkTime()">Tính giờ làm việc</button>
+  <div class="result" id="result"></div>
+
+  <script>
+    function parseTimeToMinutes(timeStr) {
+      const [hours, minutes] = timeStr.split(":").map(Number);
+      return hours * 60 + minutes;
+    }
+
+    function calculateWorkTime() {
+      const start = document.getElementById("startTime").value;
+      const end = document.getElementById("endTime").value;
+      const breakMinutes = parseInt(document.getElementById("breakMinutes").value, 10);
+
+      const startMin = parseTimeToMinutes(start);
+      const endMin = parseTimeToMinutes(end);
+      const workMinutes = endMin - startMin - breakMinutes;
+      const workHours = (workMinutes / 60).toFixed(2);
+
+      document.getElementById("result").textContent =
+        `Tổng thời gian làm việc thực tế: ${workMinutes} phút (${workHours} giờ)`;
+    }
+  </script>
+</body>
+</html>
